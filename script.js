@@ -4,7 +4,7 @@ const dashboardContainer = document.getElementById('dashboard-container');
 const totalExpensesEl = document.getElementById('total-expenses');
 const categoryListEl = document.getElementById('category-list');
 
-const backendBaseUrl = 'http://127.0.0.1:5000'; // Adjust if hosted elsewhere
+const backendBaseUrl = 'https://expense-tracker-tjr9.onrender.com'; // Adjust if hosted elsewhere
 
 // Handle login form submission
 loginForm.addEventListener('submit', async (event) => {
