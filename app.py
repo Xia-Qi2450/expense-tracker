@@ -48,13 +48,6 @@ def add_expense():
         conn.commit()
     return jsonify({"message": "Expense added successfully!"}), 201
 
-@app.route("/expenses", methods=["GET"])
-def get_expenses():
-    with sqlite3.connect(DB_NAME) as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM expenses")
-        rows = cursor.fetchall()
-    return jsonify(rows)
 
 if __name__ == "__main__":
     init_db()
