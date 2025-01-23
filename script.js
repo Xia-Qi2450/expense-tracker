@@ -51,7 +51,7 @@ loginForm.addEventListener('submit', async (event) => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    if (username === 'admin' && password === 'password') {
+    if (username === 'Jennifer' && password === '330316') {
         alert('Login successful!');
         showDashboard();
     } else {
