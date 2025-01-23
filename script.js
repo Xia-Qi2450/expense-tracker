@@ -4,9 +4,36 @@ const dashboardContainer = document.getElementById('dashboard-container');
 const totalExpensesEl = document.getElementById('total-expenses');
 const categoryListEl = document.getElementById('category-list');
 
-const backendBaseUrl = 'https://expense-tracker-tjr9.onrender.com';
+const backendBaseUrl = 'http://127.0.0.1:5000'; // Adjust if hosted elsewhere
 
-// Show dashboard and fetch stats after successful login
+// Handle login form submission
+loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch(`${backendBaseUrl}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        if (response.ok) {
+            alert('Login successful!');
+            showDashboard(); // Fetch expenses and show the dashboard
+        } else {
+            const error = await response.json();
+            alert(error.message || 'Invalid credentials. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error connecting to the server. Please try again later.');
+    }
+});
+
+// Show dashboard and fetch expense stats
 async function showDashboard() {
     loginContainer.style.display = 'none';
     dashboardContainer.style.display = 'block';
@@ -27,13 +54,13 @@ async function showDashboard() {
 
 // Display expense stats
 function displayStats(expenses) {
-    const total = expenses.reduce((sum, expense) => sum + expense[2], 0); // Assuming amount is at index 2
+    const total = expenses.reduce((sum, expense) => sum + expense[1], 0); // Assuming amount is at index 1
     totalExpensesEl.textContent = total.toFixed(2);
 
     const categoryTotals = {};
     expenses.forEach(expense => {
-        const category = expense[3]; // Assuming category is at index 3
-        categoryTotals[category] = (categoryTotals[category] || 0) + expense[2];
+        const category = expense[2]; // Assuming category is at index 2
+        categoryTotals[category] = (categoryTotals[category] || 0) + expense[1];
     });
 
     categoryListEl.innerHTML = '';
@@ -43,18 +70,3 @@ function displayStats(expenses) {
         categoryListEl.appendChild(li);
     }
 }
-
-// Handle login form submission
-loginForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    if (username === 'Jennifer' && password === '330316') {
-        alert('Login successful!');
-        showDashboard();
-    } else {
-        alert('Invalid credentials. Please try again.');
-    }
-});
