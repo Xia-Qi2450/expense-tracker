@@ -4,7 +4,7 @@ import sqlite3
 app = Flask(__name__)
 
 # Authentication
-users = {"mom": "password123"}
+users = {"Jennifer": "330316", "Kevin": "671027"}
 
 @app.route("/login", methods=["POST"])
 def login():
