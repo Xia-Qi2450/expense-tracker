@@ -8,7 +8,8 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="login-container">
+    <!-- Login View -->
+    <div id="login-container" class="login-container">
         <h1>Login</h1>
         <form id="login-form">
             <label for="username">Username:</label>
@@ -19,6 +20,17 @@
 
             <button type="submit">Login</button>
         </form>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="dashboard-container" class="dashboard-container" style="display: none;">
+        <h1>Dashboard</h1>
+        <div id="stats">
+            <h2>Expense Stats</h2>
+            <p>Total Expenses: <span id="total-expenses">0</span></p>
+            <p>Categories:</p>
+            <ul id="category-list"></ul>
+        </div>
     </div>
 </body>
 </html>
