@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import sqlite3
 
-app = Flask(__name__)
+app = https://expense-tracker-tjr9.onrender.com
 DB_NAME = expenses.db
 
 # Authentication
