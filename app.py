@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 import sqlite3
 
 app = Flask(__name__)
+DB_NAME = expenses.db
 
 # Authentication
 users = {"Jennifer": "330316"}
