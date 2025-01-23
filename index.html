@@ -3,47 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-    </style>
+    <title>Expense Tracker - Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Expense Tracker</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody id="expenses"></tbody>
-    </table>
-    <script>
-        fetch("http://127.0.0.1:5000/expenses")
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.getElementById("expenses");
-                data.forEach(row => {
-                    const tr = document.createElement("tr");
-                    row.forEach(cell => {
-                        const td = document.createElement("td");
-                        td.textContent = cell;
-                        tr.appendChild(td);
-                    });
-                    tableBody.appendChild(tr);
-                });
-            });
-    </script>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form id="login-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>
