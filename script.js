@@ -1,45 +1,59 @@
-// JavaScript to handle login form submission
 const loginForm = document.getElementById('login-form');
+const loginContainer = document.getElementById('login-container');
+const dashboardContainer = document.getElementById('dashboard-container');
+const totalExpensesEl = document.getElementById('total-expenses');
+const categoryListEl = document.getElementById('category-list');
 
-// Replace this with your Render backend URL
 const backendBaseUrl = 'https://expense-tracker-tjr9.onrender.com';
 
+// Show dashboard and fetch stats after successful login
+async function showDashboard() {
+    loginContainer.style.display = 'none';
+    dashboardContainer.style.display = 'block';
+
+    try {
+        const response = await fetch(`${backendBaseUrl}/expenses`);
+        if (response.ok) {
+            const expenses = await response.json();
+            displayStats(expenses);
+        } else {
+            alert('Failed to fetch expenses.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error fetching expenses from the backend.');
+    }
+}
+
+// Display expense stats
+function displayStats(expenses) {
+    const total = expenses.reduce((sum, expense) => sum + expense[2], 0); // Assuming amount is at index 2
+    totalExpensesEl.textContent = total.toFixed(2);
+
+    const categoryTotals = {};
+    expenses.forEach(expense => {
+        const category = expense[3]; // Assuming category is at index 3
+        categoryTotals[category] = (categoryTotals[category] || 0) + expense[2];
+    });
+
+    categoryListEl.innerHTML = '';
+    for (const [category, total] of Object.entries(categoryTotals)) {
+        const li = document.createElement('li');
+        li.textContent = `${category}: $${total.toFixed(2)}`;
+        categoryListEl.appendChild(li);
+    }
+}
+
+// Handle login form submission
 loginForm.addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent the form from submitting the traditional way
+    event.preventDefault();
 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
     if (username === 'admin' && password === 'password') {
         alert('Login successful!');
-
-        // Example of sending an expense to the backend
-        const expense = {
-            date: '2025-01-23',
-            amount: 50.75,
-            category: 'Food',
-            description: 'Groceries'
-        };
-
-        try {
-            const response = await fetch(`${backendBaseUrl}/add_expense`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(expense)
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                alert(result.message);
-            } else {
-                alert('Failed to add expense. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error communicating with the backend.');
-        }
+        showDashboard();
     } else {
         alert('Invalid credentials. Please try again.');
     }
